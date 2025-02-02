@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Assigned Counsellor</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+    {% block content %}
+<div class="container mt-5">
+    <h2>Thank you for your enquiry!</h2>
+    {% if counsellor %}
+        <p>You have been assigned to Counsellor: <strong>{{ counsellor.name }}</strong></p>
+        {% if counsellor.email %}
+            <p>Email: {{ counsellor.email }}</p>
+        {% endif %}
+    {% else %}
+        <p>Our team will review your enquiry and contact you soon.</p>
+    {% endif %}
+    <a href="{% url 'admission_form' %}" class="btn btn-primary">Proceed to Admission Form</a>
+</div>
+{% endblock %}
+</body>
+</html>
