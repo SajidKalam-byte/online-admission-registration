@@ -106,12 +106,13 @@
     <!-- Download Options -->
     <div class="row justify-content-center mt-4">
         <div class="col-md-8 text-center">
-            <a href="/download_letter/" class="btn btn-success">
+            <a href="{% url 'download_letter' %}?admission_form_id={{ admission_form.id }}" class="btn btn-success">
                 <i class="bi bi-download me-2"></i>Download Allotment Letter
-            </a>
-            <a href="/download_invoice/" class="btn btn-info">
+            </a>            
+            <a href="{% url 'download_invoice' admission_form.id %}" class="btn btn-info">
                 <i class="bi bi-download me-2"></i>Download Invoice
             </a>
+            
         </div>
     </div>
 </div>
