@@ -1,92 +1,117 @@
 {% extends "base.html" %}
 
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admission Enquiry</title>
-    {% load static %}
-</head>
-
-<body>
-    {% block content %}
-    <div class="container p-3 col-md-6 border rounded">
-        <form method="post" enctype="multipart/form-data">
-            {% csrf_token %}
-            <h2 class='mb-3'>Enquiry Form</h2>
-            
-            {% if messages %}
-            <div class="messages">
-                {% for message in messages %}
-                <div class="alert {% if message.tags %}alert-{{ message.tags }}{% endif %}">
-                    {{ message }}
+{% block content %}
+<div class="container p-3">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="academic-card">
+                <div class="academic-header mb-4">
+                    <h2>
+                        <i class="bi bi-pencil-square me-2"></i>Admission Enquiry Form
+                    </h2>
+                    <p class="mb-0">Please fill out the form below to submit your enquiry.</p>
                 </div>
-                {% endfor %}
-            </div>
-            {% endif %}
-    
-            {% if form.errors %}
-            <div class="alert alert-danger">
-                Please correct the errors below.
-            </div>
-            {% endif %}
-    
-            <div class="form-floating mb-3">
-                <input type="text" class="form-control" id="id_name" name="name" placeholder="Full Name" required>
-                <label for="id_name">Full Name</label>
-                {{ form.name.errors }}
-            </div>
-    
-            <div class="form-floating mb-3">
-                <input type="text" class="form-control" id="id_parent_name" name="parent_name" placeholder="Parent Name" required>
-                <label for="id_parent_name">Parent Name</label>
-                {{ form.parent_name.errors }}
-            </div>
-    
-            <div class="form-floating mb-3">
-                <input type="text" class="form-control" id="id_phone_number" name="phone_number" placeholder="Phone Number" required>
-                <label for="id_phone_number">Phone Number</label>
-                {{ form.phone_number.errors }}
-            </div>
-    
-            <div class="form-floating mb-3">
-                <input type="text" class="form-control" id="id_course_preferred_1" name="course_preferred_1" placeholder="Preferred Course 1" required>
-                <label for="id_course_preferred_1">Preferred Course 1</label>
-                {{ form.course_preferred_1.errors }}
-            </div>
-    
-            <div class="form-floating mb-3">
-                <input type="text" class="form-control" id="id_course_preferred_2" name="course_preferred_2" placeholder="Preferred Course 2">
-                <label for="id_course_preferred_2">Preferred Course 2 (Optional)</label>
-                {{ form.course_preferred_2.errors }}
-            </div>
-    
-            <div class="form-floating mb-3">
-                <input type="text" class="form-control" id="id_course_preferred_3" name="course_preferred_3" placeholder="Preferred Course 3">
-                <label for="id_course_preferred_3">Preferred Course 3 (Optional)</label>
-                {{ form.course_preferred_3.errors }}
-            </div>
-    
-            <div class="form-floating mb-3">
-                <select class="form-select" id="id_reference_source" name="reference_source" required>
-                    <option value="">Select an option</option>
-                    <option value="Website">Website</option>
-                    <option value="Social-media">Social Media</option>
-                    <option value="Pamphlet">Pamphlet</option>
-                    <option value="Other">Other</option>
-                </select>
-                <label for="id_reference_source">How did you hear about us?</label>
-                {{ form.reference_source.errors }}
-            </div>
-    
-            <div class="d-grid mb-3">
-                <button class="btn btn-primary" type="submit">Submit</button>
-            </div>
-        </form>
-    </div>
-    {% endblock %}
-</body>
+                <form method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    
+                    {% if messages %}
+                    <div class="messages">
+                        {% for message in messages %}
+                        <div class="alert {% if message.tags %}alert-{{ message.tags }}{% endif %}">
+                            {{ message }}
+                        </div>
+                        {% endfor %}
+                    </div>
+                    {% endif %}
 
-</html>
+                    {% if form.errors %}
+                    <div class="alert alert-danger">
+                        <i class="bi bi-exclamation-circle me-2"></i>Please correct the errors below.
+                    </div>
+                    {% endif %}
+
+                    <!-- Full Name -->
+                    <div class="form-floating mb-3">
+                        <input type="text" class="form-control" id="id_name" name="name" placeholder="Full Name" required>
+                        <label for="id_name"><i class="bi bi-person-fill me-2"></i>Full Name</label>
+                        {{ form.name.errors }}
+                    </div>
+
+                    <!-- Parent Name -->
+                    <div class="form-floating mb-3">
+                        <input type="text" class="form-control" id="id_parent_name" name="parent_name" placeholder="Parent Name" required>
+                        <label for="id_parent_name"><i class="bi bi-person-badge-fill me-2"></i>Parent Name</label>
+                        {{ form.parent_name.errors }}
+                    </div>
+
+                    <!-- Phone Number -->
+                    <div class="form-floating mb-3">
+                        <input type="text" class="form-control" id="id_phone_number" name="phone_number" placeholder="Phone Number" required>
+                        <label for="id_phone_number"><i class="bi bi-telephone-fill me-2"></i>Phone Number</label>
+                        {{ form.phone_number.errors }}
+                    </div>
+
+                    <!-- Preferred Course 1 -->
+                    <div class="form-floating mb-3">
+                        <select class="form-select" id="id_course_preferred_1" name="course_preferred_1" required>
+                            <option value="" disabled selected>Select Preferred Course 1</option>
+                            <option value="Mathematics">Mathematics</option>
+                            <option value="Physics">Physics</option>
+                            <option value="Arts">Arts</option>
+                            <option value="Computer Science">Computer Science</option>
+                        </select>
+                        <label for="id_course_preferred_1"><i class="bi bi-book-fill me-2"></i>Preferred Course 1</label>
+                        {{ form.course_preferred_1.errors }}
+                    </div>
+
+                    <!-- Preferred Course 2 -->
+                    <div class="form-floating mb-3">
+                        <select class="form-select" id="id_course_preferred_2" name="course_preferred_2">
+                            <option value="" disabled selected>Select Preferred Course 2 (Optional)</option>
+                            <option value="Mathematics">Mathematics</option>
+                            <option value="Physics">Physics</option>
+                            <option value="Arts">Arts</option>
+                            <option value="Computer Science">Computer Science</option>
+                        </select>
+                        <label for="id_course_preferred_2"><i class="bi bi-book me-2"></i>Preferred Course 2</label>
+                        {{ form.course_preferred_2.errors }}
+                    </div>
+
+                    <!-- Preferred Course 3 -->
+                    <div class="form-floating mb-3">
+                        <select class="form-select" id="id_course_preferred_3" name="course_preferred_3">
+                            <option value="" disabled selected>Select Preferred Course 3 (Optional)</option>
+                            <option value="Mathematics">Mathematics</option>
+                            <option value="Physics">Physics</option>
+                            <option value="Arts">Arts</option>
+                            <option value="Computer Science">Computer Science</option>
+                        </select>
+                        <label for="id_course_preferred_3"><i class="bi bi-book me-2"></i>Preferred Course 3</label>
+                        {{ form.course_preferred_3.errors }}
+                    </div>
+
+                    <!-- Reference Source -->
+                    <div class="form-floating mb-3">
+                        <select class="form-select" id="id_reference_source" name="reference_source" required>
+                            <option value="" disabled selected>Select an option</option>
+                            <option value="Website">Website</option>
+                            <option value="Social-media">Social Media</option>
+                            <option value="Pamphlet">Pamphlet</option>
+                            <option value="Other">Other</option>
+                        </select>
+                        <label for="id_reference_source"><i class="bi bi-info-circle-fill me-2"></i>How did you hear about us?</label>
+                        {{ form.reference_source.errors }}
+                    </div>
+
+                    <!-- Submit Button -->
+                    <div class="d-grid mt-4">
+                        <button class="btn academic-btn" type="submit">
+                            <i class="bi bi-send-fill me-2"></i>Submit Enquiry
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
