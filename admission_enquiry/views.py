@@ -16,11 +16,7 @@ from django.http import HttpResponse
 from django.shortcuts import get_object_or_404
 from .models import AdmissionForm
 
-def download_invoice(request):
-    admission_form_id = request.GET.get('admission_form_id')
-    if not admission_form_id:
-        return HttpResponse("Missing 'admission_form_id' parameter.", status=400)
-
+def download_invoice(request, admission_form_id):  # Accept admission_form_id as an argument
     admission_form = get_object_or_404(AdmissionForm, id=admission_form_id)
     payment = get_object_or_404(Payment, admission_form=admission_form)
 
@@ -37,8 +33,6 @@ def download_invoice(request):
     p.drawString(200, height - 70, "123, ABC Road, City, Country - 567890")
     p.drawString(200, height - 90, "Email: info@xyzinstitute.com | Phone: +91-1234567890")
 
-    p.setStrokeColor(colors.black)
-    p.setLineWidth(1)
     p.line(50, height - 100, width - 50, height - 100)
 
     # Invoice Title
@@ -46,32 +40,15 @@ def download_invoice(request):
     p.drawString(250, height - 130, "Fee Payment Invoice")
 
     # Invoice Details
-    data = [
-        ["Invoice No:", f"INV-{payment.id}"],
-        ["Student Name:", admission_form.name],
-        ["Transaction ID:", payment.transaction_id],
-        ["Payment Date:", payment.date.strftime("%d-%m-%Y")],
-        ["Payment Method:", payment.get_payment_mode_display()],
-        ["Amount Paid:", f"Rs. {payment.amount}"],
-    ]
-
-    table = Table(data, colWidths=[200, 250])
-    table.setStyle(TableStyle([
-        ('BACKGROUND', (0, 0), (-1, 0), colors.grey),
-        ('TEXTCOLOR', (0, 0), (-1, 0), colors.white),
-        ('ALIGN', (0, 0), (-1, -1), 'LEFT'),
-        ('FONTNAME', (0, 0), (-1, 0), 'Helvetica-Bold'),
-        ('BOTTOMPADDING', (0, 0), (-1, 0), 10),
-        ('GRID', (0, 0), (-1, -1), 1, colors.black),
-    ]))
-
-    table.wrapOn(p, width, height)
-    table.drawOn(p, 50, height - 300)
-
-    # Signature
     p.setFont("Helvetica", 12)
-    p.drawString(50, height - 400, "Thank you for your payment. Keep this invoice for reference.")
+    p.drawString(50, height - 160, f"Invoice No: INV-{payment.id}")
+    p.drawString(50, height - 180, f"Student Name: {admission_form.name}")
+    p.drawString(50, height - 200, f"Transaction ID: {payment.transaction_id}")
+    p.drawString(50, height - 220, f"Payment Date: {payment.date.strftime('%d-%m-%Y')}")
+    p.drawString(50, height - 240, f"Payment Method: {payment.get_payment_mode_display()}")
+    p.drawString(50, height - 260, f"Amount Paid: Rs. {payment.amount}")
 
+    # Footer
     p.line(50, 100, width - 50, 100)
     p.drawString(50, 80, "Authorized Signatory")
     p.drawString(50, 60, "XYZ Institute of Technology")
